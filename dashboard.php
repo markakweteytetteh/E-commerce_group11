@@ -45,19 +45,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
 </head>
 
 <body>
-  <div class="container">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <a href="index.php"><img src="https://img.icons8.com/ios-filled/50/000000/shopping-cart.png" alt="E-comm Logo"
+          style="height:40px;vertical-align:middle;"> <span
+          style="font-size:1.5em;font-weight:bold;vertical-align:middle;">E-comm</span></a>
+    </div>
+    <nav class="nav">
+      <a href="index.php">Home</a>
+      <a href="#">Shop</a>
+      <a href="login.php">Login</a>
+      <a href="register.php">Register</a>
+    </nav>
+  </header>
+  <!-- Banner -->
+  <div class="banner" style="background:#f5f5f5;padding:20px;text-align:center;margin-bottom:20px;">
+    <h1>Welcome to your Dashboard</h1>
+    <p>Manage your account, upload products, and view your activity.</p>
+  </div>
+  <div class="container" style="max-width:700px;">
     <h2>Dashboard</h2>
     <p>Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></p>
-    <a href="logout.php">Logout</a>
-
-    <h3>Upload a File</h3>
-    <?php if ($message): ?>
-      <p style="color: blue;"><?php echo $message; ?></p>
-    <?php endif; ?>
-    <form action="dashboard.php" method="POST" enctype="multipart/form-data">
-      <input type="file" name="fileToUpload" required>
-      <button type="submit">Upload</button>
-    </form>
+    <div style="display:flex;flex-wrap:wrap;gap:32px;margin:32px 0;justify-content:center;">
+      <div
+        style="background:#f9f9fb;border-radius:8px;box-shadow:0 2px 8px #eee;padding:18px 28px;min-width:220px;text-align:center;">
+        <h3>Upload Product Image</h3>
+        <form method="POST" enctype="multipart/form-data">
+          <input type="file" name="fileToUpload" required><br><br>
+          <button type="submit">Upload</button>
+        </form>
+        <?php if (isset($message)): ?>
+          <p style="color:blue;"> <?php echo $message; ?> </p>
+        <?php endif; ?>
+      </div>
+      <div
+        style="background:#f9f9fb;border-radius:8px;box-shadow:0 2px 8px #eee;padding:18px 28px;min-width:220px;text-align:center;">
+        <h3>Account</h3>
+        <p><b>Username:</b> <?php echo htmlspecialchars($_SESSION["username"]); ?></p>
+        <a href="logout.php" class="btn" style="margin-top:12px;">Logout</a>
+      </div>
+    </div>
   </div>
   <div class="container" style="margin-top: 24px;">
     <h3>Your Uploaded Files</h3>
@@ -80,6 +108,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
       ?>
     </ul>
   </div>
+  <!-- Footer -->
+  <footer class="footer" style="background:#222;color:#fff;text-align:center;padding:15px 0;margin-top:40px;">
+    &copy; <?php echo date('Y'); ?> E-comm. All rights reserved.
+  </footer>
 </body>
 
 </html>
