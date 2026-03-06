@@ -3,6 +3,18 @@ session_start();
 
 $error = "";
 
+if (isset($_SESSION['logged_in'])) {
+    header("Location: dashboard.php");
+    exit;
+}
+//check if regsuccess session is set and use it to display message if user comming from register page
+if(isset($_SESSION["regsuccess"])){
+  $success = $_SESSION["regsuccess"];
+}else{
+  $success = '';
+
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and trim input (sanitize only for output)
     $username = trim($_POST["username"]);
@@ -43,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <nav class="nav">
             <a href="index.php">Home</a>
-            <a href="#">Shop</a>
+            <a href="index.html#shop">Shop</a>
             <a href="login.php">Login</a>
             <a href="register.php">Register</a>
         </nav>
@@ -58,13 +70,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if ($error): ?>
             <p style="color:red;"><?php echo $error; ?></p>
         <?php endif; ?>
+        <?php if ($success): ?>
+            <p style="color:blue;"><?php echo $success; ?></p>
+        <?php endif; ?>
         <form method="POST" action="login.php">
             <label>Username:</label><br>
             <input type="text" name="username" required><br><br>
             <label>Password:</label><br>
             <input type="password" name="password" required><br><br>
             <button type="submit">Login</button>
-            <button type="button" onclick="window.location.href='index.php'">Cancel</button>
+            
         </form>
         <div style="margin-top:24px;text-align:center;">
             <p>Don't have an account? <a href="register.php">Register here</a></p>
