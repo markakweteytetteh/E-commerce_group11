@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (isset($_SESSION['logged_in'])) {
+    header("Location: dashboard.php");
+    exit;
+}
+
 $error = $success = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"] ?? "");
@@ -20,7 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["username"] = $username;
         $_SESSION["email"] = $email;
         $_SESSION["password"] = $password;
-        $success = "Registration successful! You can now <a href='login.php'>login</a>.";
+        //set regsuccess to display success text after register
+        $_SESSION["regsuccess"] = "Registration successful! You can now login";
+        header('Location: login.php');
+        exit;
     }
 }
 ?>
@@ -41,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <nav class="nav">
             <a href="index.php">Home</a>
-            <a href="#">Shop</a>
+            <a href="index.html#shop">Shop</a>
             <a href="login.php">Login</a>
             <a href="register.php">Register</a>
         </nav>
@@ -56,9 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if ($error): ?>
             <p style="color:red;"><?php echo $error; ?></p>
         <?php endif; ?>
-        <?php if ($success): ?>
-            <p style="color:blue;"><?php echo $success; ?></p>
-        <?php endif; ?>
+        
         <form method="POST" action="register.php">
             <label>Username:</label><br>
             <input type="text" name="username" required><br><br>
@@ -69,7 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Confirm Password:</label><br>
             <input type="password" name="confirm_password" required><br><br>
             <button type="submit">Register</button>
-            <button type="button" onclick="window.location.href='index.php'">Cancel</button>
+            <div style="margin-top:24px;text-align:center;">
+            <p>Already have an account? <a href="login.php">Login here</a></p>
+        </div>
+            
         </form>
     </div>
     <!-- Featured Products Section -->
